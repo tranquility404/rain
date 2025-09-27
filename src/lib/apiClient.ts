@@ -1,6 +1,6 @@
 // API Client Configuration and Functions
 // Base URL for all API requests
-const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+const BASE_URL = "/api";
 
 // Types for API responses
 export interface MaterialTypesResponse {
