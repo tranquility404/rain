@@ -88,12 +88,7 @@ const Header = () => {
                 </a>
               ))}
               <div className="flex flex-col space-y-2 pt-4">
-                <Link to="/">
-                  <Button variant="outline" size="sm" className="w-full">
-                    Dashboard
-                  </Button>
-                </Link>
-                <Link to="/capture">
+                <Link to="/self-assessment">
                   <Button
                     size="sm"
                     className="bg-gradient-water text-white w-full"
