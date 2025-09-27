@@ -14,6 +14,9 @@ import NotFound from "./pages/NotFound";
 import Payment from "./pages/Payment";
 import Schedule from "./pages/Schedule";
 import Home from "./pages/Home";
+import SelfAssessment from "./pages/SelfAssessment";
+import AnalysisResults from "./pages/AnalysisResults";
+import Analysis from "./pages/Analysis";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +29,9 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/dashboard" element={<Home />} />
+          <Route path="/self-assessment" element={<SelfAssessment />} />
+          <Route path="/analysis/:sessionId" element={<Analysis />} />
+          <Route path="/analysis-results" element={<AnalysisResults />} />
           <Route path="/install-setup" element={<InstallHarvestingSetup />} />
           <Route path="/installation-updates" element={<InstallationUpdates />} />
           <Route path="/capture" element={<Capture />} />

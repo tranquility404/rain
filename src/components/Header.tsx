@@ -50,12 +50,7 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link to="/dashboard">
-              <Button variant="outline" size="sm">
-                Dashboard
-              </Button>
-            </Link>
-            <Link to="/install-setup">
+            <Link to="/self-assessment">
               <Button
                 size="sm"
                 className="bg-gradient-water text-white hover:opacity-90"

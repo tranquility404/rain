@@ -66,13 +66,10 @@ const HeroSection = () => {
               variant="hero"
               size="lg"
               className="group"
-              onClick={() => window.location.href = '/install-setup'}
+              onClick={() => window.location.href = '/self-assessment'}
             >
               Start Your Journey
               <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-            </RippleButton>
-            <RippleButton variant="outline" size="lg">
-              See How It Works
             </RippleButton>
           </motion.div>
 

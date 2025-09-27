@@ -1,180 +1,194 @@
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Sphere, MeshDistortMaterial, Float } from '@react-three/drei';
 import { motion } from 'framer-motion';
-import { useRef, useMemo, useState } from 'react';
+import { useRef, useMemo, useState, useEffect } from 'react';
 import * as THREE from 'three';
 
-interface BubbleData {
-  id: number;
-  position: THREE.Vector3;
-  velocity: THREE.Vector3;
+// Lightweight bubble component with simplified physics
+const LightweightBubble = ({
+  position,
+  size,
+  color,
+  speed = 1
+}: {
+  position: [number, number, number];
   size: number;
   color: string;
-}
-
-const PhysicsBubble = ({ bubble, onUpdate }: { bubble: BubbleData; onUpdate: (id: number, position: THREE.Vector3, velocity: THREE.Vector3) => void }) => {
+  speed?: number;
+}) => {
   const meshRef = useRef<THREE.Mesh>(null);
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     if (meshRef.current) {
-      // Repulsion force from the large central bubble (positioned at origin)
-      const largeBubblePosition = new THREE.Vector3(0, 0, 0);
-      const distanceToLargeBubble = bubble.position.distanceTo(largeBubblePosition);
-      const largeBubbleRadius = 2; // The large bubble's scale
-      const repulsionDistance = largeBubbleRadius + 1; // Start repulsion 1 unit away from surface
-
-      if (distanceToLargeBubble < repulsionDistance) {
-        // Calculate repulsion force
-        const repulsionDirection = bubble.position.clone().sub(largeBubblePosition).normalize();
-        const repulsionStrength = (repulsionDistance - distanceToLargeBubble) / repulsionDistance;
-        const repulsionForce = repulsionDirection.multiplyScalar(repulsionStrength * 2 * delta);
-
-        // Apply repulsion force to velocity
-        bubble.velocity.add(repulsionForce);
-      }
-
-      // Update position based on velocity
-      bubble.position.add(bubble.velocity.clone().multiplyScalar(delta));
-
-      // Boundary collision (screen edges)
-      const bounds = 4;
-      if (bubble.position.x > bounds || bubble.position.x < -bounds) {
-        bubble.velocity.x *= -0.8; // Damping on collision
-        bubble.position.x = THREE.MathUtils.clamp(bubble.position.x, -bounds, bounds);
-      }
-      if (bubble.position.y > bounds || bubble.position.y < -bounds) {
-        bubble.velocity.y *= -0.8;
-        bubble.position.y = THREE.MathUtils.clamp(bubble.position.y, -bounds, bounds);
-      }
-      if (bubble.position.z > 2 || bubble.position.z < -2) {
-        bubble.velocity.z *= -0.8;
-        bubble.position.z = THREE.MathUtils.clamp(bubble.position.z, -2, 2);
-      }
-
-      // Update mesh position
-      meshRef.current.position.copy(bubble.position);
-
-      // Call update callback
-      onUpdate(bubble.id, bubble.position, bubble.velocity);
+      // Simple floating animation
+      const time = state.clock.getElapsedTime() * speed;
+      meshRef.current.position.y = position[1] + Math.sin(time) * 0.2;
+      meshRef.current.position.x = position[0] + Math.cos(time * 0.7) * 0.1;
+      meshRef.current.rotation.y = time * 0.3;
+      meshRef.current.rotation.x = Math.sin(time * 0.5) * 0.1;
     }
   });
 
+  // Use lower resolution geometry for mobile performance
   return (
-    <Sphere ref={meshRef} args={[bubble.size, 16, 16]} position={bubble.position.toArray()}>
-      <MeshDistortMaterial
-        color={bubble.color}
-        attach="material"
-        distort={0.1}
-        speed={1.5}
-        roughness={0}
+    <Sphere ref={meshRef} args={[size, 12, 12]} position={position}>
+      <meshBasicMaterial
+        color={color}
         transparent
-        opacity={0.6}
+        opacity={0.4}
       />
     </Sphere>
   );
 };
 
-const BubbleSystem = () => {
-  const [bubbles, setBubbles] = useState<BubbleData[]>(() => {
-    // Create 12 small bubbles with random positions and velocities
-    return Array.from({ length: 12 }, (_, i) => ({
+// Lightweight bubble system with responsive positioning
+const SimpleBubbleSystem = () => {
+  const [screenSize, setScreenSize] = useState({ width: 0, height: 0, isMobile: false });
+
+  useEffect(() => {
+    const updateScreenSize = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const isMobile = width < 768 || 'ontouchstart' in window;
+
+      setScreenSize({ width, height, isMobile });
+    };
+
+    updateScreenSize();
+    window.addEventListener('resize', updateScreenSize);
+
+    return () => window.removeEventListener('resize', updateScreenSize);
+  }, []);
+
+  const bubbles = useMemo(() => {
+    const { width, height, isMobile } = screenSize;
+
+    if (width === 0) return []; // Don't render until screen size is known
+
+    // Reduce bubble count and adjust positioning based on screen size
+    const bubbleCount = isMobile ? 4 : 6; // Fewer bubbles on mobile
+    const positionRange = isMobile ? 2.5 : 3.5; // Smaller positioning range on mobile
+    const maxBubbleSize = isMobile ? 0.15 : 0.2; // Smaller bubbles on mobile
+
+    // Adjust bubble positioning relative to main sphere position
+    const sphereYOffset = isMobile ? 1.0 : 0; // Move bubbles up on mobile to follow sphere
+
+    return Array.from({ length: bubbleCount }, (_, i) => ({
       id: i,
-      position: new THREE.Vector3(
-        (Math.random() - 0.5) * 6,
-        (Math.random() - 0.5) * 6,
-        (Math.random() - 0.5) * 3
-      ),
-      velocity: new THREE.Vector3(
-        (Math.random() - 0.5) * 0.5,
-        (Math.random() - 0.5) * 0.5,
-        (Math.random() - 0.5) * 0.3
-      ),
-      size: 0.1 + Math.random() * 0.3, // Size between 0.1 and 0.4
-      color: ['#06b6d4', '#22d3ee', '#0ea5e9', '#38bdf8'][Math.floor(Math.random() * 4)]
+      position: [
+        (Math.random() - 0.5) * positionRange,
+        (Math.random() - 0.5) * positionRange + sphereYOffset, // Add Y offset for mobile
+        (Math.random() - 0.5) * 1.5
+      ] as [number, number, number],
+      size: 0.08 + Math.random() * maxBubbleSize,
+      color: ['#06b6d4', '#22d3ee', '#0ea5e9', '#38bdf8'][Math.floor(Math.random() * 4)],
+      speed: 0.5 + Math.random() * 0.8
     }));
-  });
-
-  const updateBubble = (id: number, position: THREE.Vector3, velocity: THREE.Vector3) => {
-    setBubbles(prevBubbles => {
-      const newBubbles = [...prevBubbles];
-      const bubbleIndex = newBubbles.findIndex(b => b.id === id);
-      if (bubbleIndex !== -1) {
-        newBubbles[bubbleIndex] = {
-          ...newBubbles[bubbleIndex],
-          position: position.clone(),
-          velocity: velocity.clone()
-        };
-      }
-      return newBubbles;
-    });
-  };
-
-  // Collision detection and response
-  useFrame(() => {
-    setBubbles(prevBubbles => {
-      const newBubbles = [...prevBubbles];
-
-      // Check collisions between all pairs of bubbles
-      for (let i = 0; i < newBubbles.length; i++) {
-        for (let j = i + 1; j < newBubbles.length; j++) {
-          const bubble1 = newBubbles[i];
-          const bubble2 = newBubbles[j];
-
-          const distance = bubble1.position.distanceTo(bubble2.position);
-          const minDistance = bubble1.size + bubble2.size;
-
-          if (distance < minDistance) {
-            // Collision detected - calculate collision response
-            const normal = bubble2.position.clone().sub(bubble1.position).normalize();
-            const relativeVelocity = bubble1.velocity.clone().sub(bubble2.velocity);
-            const velocityAlongNormal = relativeVelocity.dot(normal);
-
-            // Don't resolve if velocities are separating
-            if (velocityAlongNormal > 0) continue;
-
-            // Restitution (bounciness) - lower value for slower bouncing
-            const restitution = 0.3;
-            const impulseScalar = -(1 + restitution) * velocityAlongNormal;
-            const impulse = normal.clone().multiplyScalar(impulseScalar * 0.5);
-
-            // Apply impulse to velocities
-            bubble1.velocity.add(impulse);
-            bubble2.velocity.sub(impulse);
-
-            // Separate bubbles to prevent overlap
-            const separation = normal.clone().multiplyScalar((minDistance - distance) * 0.5);
-            bubble1.position.sub(separation);
-            bubble2.position.add(separation);
-          }
-        }
-      }
-
-      return newBubbles;
-    });
-  });
+  }, [screenSize]);
 
   return (
     <>
       {bubbles.map(bubble => (
-        <PhysicsBubble
+        <LightweightBubble
           key={bubble.id}
-          bubble={bubble}
-          onUpdate={updateBubble}
+          position={bubble.position}
+          size={bubble.size}
+          color={bubble.color}
+          speed={bubble.speed}
         />
       ))}
     </>
   );
 };
 
-const AnimatedSphere = () => {
+// Optimized main sphere with responsive scaling and positioning
+const OptimizedSphere = () => {
+  const [screenSize, setScreenSize] = useState({ width: 0, height: 0, isMobile: false });
+
+  useEffect(() => {
+    const updateScreenSize = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const isMobile = width < 768 || 'ontouchstart' in window;
+
+      setScreenSize({ width, height, isMobile });
+    };
+
+    updateScreenSize();
+    window.addEventListener('resize', updateScreenSize);
+
+    return () => window.removeEventListener('resize', updateScreenSize);
+  }, []);
+
+  // Calculate responsive scale based on screen dimensions
+  const getResponsiveScale = () => {
+    const { width, height, isMobile } = screenSize;
+
+    if (width === 0) return 1; // Default scale while loading
+
+    // Base scale factors for different screen sizes
+    if (isMobile) {
+      // Mobile scaling - much smaller to prevent covering the screen
+      if (width < 400) return 0.6;  // Very small phones
+      if (width < 500) return 0.8;  // Small phones
+      return 1.0;                   // Larger phones
+    } else {
+      // Desktop/tablet scaling
+      if (width < 1024) return 1.2;  // Tablets
+      if (width < 1440) return 1.5;  // Small desktops
+      if (width < 1920) return 1.8;  // Medium desktops
+      return 2.0;                     // Large desktops
+    }
+  };
+
+  // Calculate responsive positioning - move sphere up on mobile to be behind hero title
+  const getResponsivePosition = (): [number, number, number] => {
+    const { width, height, isMobile } = screenSize;
+
+    if (width === 0) return [0, 0, 0]; // Default position while loading
+
+    if (isMobile) {
+      // Mobile positioning - move sphere upward to appear behind hero title
+      const aspectRatio = height / width;
+
+      if (width < 400) return [0, 1.8, 0];   // Very small phones - higher up
+      if (width < 500) return [0, 1.5, 0];   // Small phones
+      if (aspectRatio > 2) return [0, 1.2, 0]; // Tall phones (like iPhone)
+      return [0, 1.0, 0];                     // Standard mobile
+    } else {
+      // Desktop/tablet positioning - centered or slightly up
+      if (width < 1024) return [0, 0.3, 0];  // Tablets - slightly up
+      return [0, 0, 0];                       // Desktop - centered
+    }
+  };
+
+  const scale = getResponsiveScale();
+  const position = getResponsivePosition();
+
+  if (screenSize.isMobile) {
+    // Simplified sphere for mobile - no distortion material, lower resolution
+    return (
+      <Float speed={1} rotationIntensity={0.5} floatIntensity={1}>
+        <Sphere args={[1, 24, 24]} scale={scale} position={position}>
+          <meshBasicMaterial
+            color="#0ea5e9"
+            transparent
+            opacity={0.7}
+          />
+        </Sphere>
+      </Float>
+    );
+  }
+
+  // Full version for desktop - moderate complexity
   return (
-    <Float speed={1.5} rotationIntensity={1} floatIntensity={2}>
-      <Sphere args={[1, 64, 64]} scale={2}>
+    <Float speed={1.2} rotationIntensity={0.8} floatIntensity={1.5}>
+      <Sphere args={[1, 32, 32]} scale={scale} position={position}>
         <MeshDistortMaterial
           color="#0ea5e9"
           attach="material"
-          distort={0.3}
-          speed={2}
+          distort={0.2}
+          speed={1.5}
           roughness={0}
           transparent
           opacity={0.8}
@@ -184,7 +198,45 @@ const AnimatedSphere = () => {
   );
 };
 
+// Responsive and mobile-optimized water scene
 const WaterScene = () => {
+  const [screenSize, setScreenSize] = useState({ width: 0, height: 0, isMobile: false });
+
+  useEffect(() => {
+    const updateScreenSize = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const isMobile = width < 768 || 'ontouchstart' in window;
+
+      setScreenSize({ width, height, isMobile });
+    };
+
+    updateScreenSize();
+    window.addEventListener('resize', updateScreenSize);
+
+    return () => window.removeEventListener('resize', updateScreenSize);
+  }, []);
+
+  // Calculate responsive camera settings
+  const getCameraSettings = () => {
+    const { width, isMobile } = screenSize;
+
+    if (width === 0) return { position: [0, 0, 5], fov: 60 }; // Default while loading
+
+    if (isMobile) {
+      // Mobile camera settings - pull back further to show smaller sphere properly
+      if (width < 400) return { position: [0, 0, 6], fov: 70 };  // Very small phones
+      if (width < 500) return { position: [0, 0, 5.5], fov: 65 }; // Small phones
+      return { position: [0, 0, 5], fov: 60 };                    // Larger phones
+    } else {
+      // Desktop camera settings
+      if (width < 1024) return { position: [0, 0, 4.5], fov: 55 }; // Tablets
+      return { position: [0, 0, 5], fov: 60 };                     // Desktops
+    }
+  };
+
+  const cameraSettings = getCameraSettings();
+
   return (
     <motion.div
       className="absolute inset-0 -z-10"
@@ -192,21 +244,31 @@ const WaterScene = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
+      <Canvas
+        camera={{
+          position: cameraSettings.position as [number, number, number],
+          fov: cameraSettings.fov
+        }}
+        dpr={screenSize.isMobile ? 1 : Math.min(window.devicePixelRatio, 2)} // Limit pixel ratio on mobile
+        performance={{ min: 0.5 }} // Allow frame rate to drop to maintain performance
+        frameloop="demand" // Only render when needed
+      >
+        {/* Simplified lighting for better performance */}
         <ambientLight intensity={0.6} />
-        <directionalLight position={[10, 10, 5]} intensity={1} />
-        <pointLight position={[-10, -10, -5]} color="#22d3ee" intensity={0.5} />
+        <directionalLight position={[10, 10, 5]} intensity={0.8} />
+        {!screenSize.isMobile && <pointLight position={[-10, -10, -5]} color="#22d3ee" intensity={0.3} />}
 
-        <AnimatedSphere />
-        <BubbleSystem />
+        <OptimizedSphere />
+        <SimpleBubbleSystem />
 
         <OrbitControls
           enableZoom={false}
           enablePan={false}
-          autoRotate
-          autoRotateSpeed={0.5}
+          autoRotate={!screenSize.isMobile} // Disable auto-rotate on mobile to save battery
+          autoRotateSpeed={0.3}
           maxPolarAngle={Math.PI / 2}
           minPolarAngle={Math.PI / 2}
+          enableDamping={false} // Disable damping for better performance
         />
       </Canvas>
     </motion.div>

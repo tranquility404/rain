@@ -77,7 +77,7 @@ const CTASection = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <Link to="/install-setup">
+            <Link to="/self-assessment">
               <RippleButton 
                 size="lg" 
                 className="bg-gradient-water text-white hover:opacity-90 group text-lg px-8 py-4"
@@ -85,11 +85,6 @@ const CTASection = () => {
                 Start Free Analysis
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </RippleButton>
-            </Link>
-            <Link to="/contractors">
-            <RippleButton variant="outline" size="lg" className="text-lg px-8 py-4">
-              Schedule Consultation
-            </RippleButton>
             </Link>
           </motion.div>
 
