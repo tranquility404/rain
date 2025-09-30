@@ -7,18 +7,21 @@ const HeroSection = () => {
   const features = [
     {
       icon: Droplets,
-      title: 'Smart Water Collection',
-      description: 'AI-powered rooftop analysis'
+      title: 'AI-Powered Analysis',
+      description: 'Complete water assessment from rainfall patterns to groundwater levels, calculating your exact harvesting potential',
+      highlight: '5 Key Metrics'
     },
     {
       icon: Zap,
-      title: 'Efficient Systems',
-      description: 'Optimized harvesting setups'
+      title: 'End-to-End Solution',
+      description: 'From analysis to installation - verified contractors, project tracking, and cost optimization in one platform',
+      highlight: 'Complete Pipeline'
     },
     {
       icon: Users,
-      title: 'Expert Contractors',
-      description: 'Verified professional network'
+      title: 'Community Network',
+      description: 'Join India\'s growing water independence movement with interconnected hubs and shared resources',
+      highlight: '200+ Active Users'
     }
   ];
 
@@ -41,17 +44,20 @@ const HeroSection = () => {
           >
             <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
               <span className="bg-gradient-water bg-clip-text text-transparent">
-                Harvest
+                Transforming
               </span>{' '}
-              <span className="text-card-foreground">Every</span>
+              <span className="text-card-foreground">India's</span>
               <br />
               <span className="bg-gradient-eco bg-clip-text text-transparent">
-                Drop of Rain
+                Water Future
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-card-foreground/80 max-w-2xl mx-auto leading-relaxed">
-              Transform your rooftop into a sustainable water collection system with
-              AI-powered analysis and expert installation services.
+            <p className="text-xl md:text-2xl text-card-foreground/80 max-w-3xl mx-auto leading-relaxed mb-4">
+              From <strong className="text-card-foreground">600 million</strong> facing water scarcity to complete water independence -
+              RAIN Platform makes rainwater harvesting accessible, intelligent, and community-driven.
+            </p>
+            <p className="text-lg md:text-xl text-card-foreground/80 max-w-2xl mx-auto">
+              Join <strong className="text-card-foreground">200+ users</strong> already building India's interconnected water hub network
             </p>
           </motion.div>
 
@@ -68,7 +74,7 @@ const HeroSection = () => {
               className="group"
               onClick={() => window.location.href = '/self-assessment'}
             >
-              Start Your Journey
+              Start Water Assessment
               <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
             </RippleButton>
           </motion.div>
@@ -89,13 +95,18 @@ const HeroSection = () => {
                 whileHover={{ y: -5, scale: 1.02 }}
                 className="glass rounded-2xl p-6 border border-white/20 backdrop-blur-md shadow-glass group hover:shadow-water transition-all duration-300"
               >
-                <div className="w-12 h-12 bg-gradient-water rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <feature.icon className="w-6 h-6 text-white" />
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-12 h-12 bg-gradient-water rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <feature.icon className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="text-xs bg-secondary/10 text-secondary px-2 py-1 rounded-full font-medium">
+                    {feature.highlight}
+                  </div>
                 </div>
-                <h3 className="text-lg font-semibold mb-2 text-card-foreground">
+                <h3 className="text-lg font-semibold mb-3 text-card-foreground">
                   {feature.title}
                 </h3>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-muted-foreground text-sm leading-relaxed">
                   {feature.description}
                 </p>
               </motion.div>

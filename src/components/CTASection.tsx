@@ -6,11 +6,11 @@ import RippleButton from './RippleButton';
 
 const CTASection = () => {
   const benefits = [
-    'Free AI-powered roof analysis',
-    'No upfront costs - flexible payment plans',
-    'Professional installation guarantee',
-    '24/7 customer support',
-    'Mobile app included',
+    'Comprehensive water analysis platform',
+    'Verified contractor marketplace',
+    'Real-time project management',
+    'Community water hub network',
+    'Sustainable water independence',
   ];
 
   return (
@@ -37,14 +37,14 @@ const CTASection = () => {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              Ready to{' '}
+              Building India's{' '}
               <span className="bg-gradient-water bg-clip-text text-transparent">
-                Harvest
+                Water
               </span>{' '}
-              Every Drop?
+              Future
             </h2>
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-              Join thousands of satisfied customers who've reduced their water bills by up to 60% with our innovative water harvesting solutions.
+              Join the network of interconnected water hubs creating water independence across India. Every installation contributes to our collective water security.
             </p>
           </motion.div>
 
@@ -78,11 +78,11 @@ const CTASection = () => {
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
             <Link to="/self-assessment">
-              <RippleButton 
-                size="lg" 
+              <RippleButton
+                size="lg"
                 className="bg-gradient-water text-white hover:opacity-90 group text-lg px-8 py-4"
               >
-                Start Free Analysis
+                Join RAIN Platform
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </RippleButton>
             </Link>
@@ -95,7 +95,7 @@ const CTASection = () => {
             transition={{ duration: 0.8, delay: 0.8 }}
             className="text-sm text-muted-foreground mt-6"
           >
-            No credit card required • Free roof analysis • 30-day money-back guarantee
+            Free platform access • Community-driven solutions • Building India's water future together
           </motion.p>
         </div>
       </div>

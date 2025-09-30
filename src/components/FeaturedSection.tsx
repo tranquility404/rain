@@ -6,33 +6,33 @@ const FeaturedSection = () => {
   const features = [
     {
       icon: Droplets,
-      title: 'AI-Powered Analysis',
-      description: 'Advanced computer vision analyzes your rooftop to calculate optimal water collection potential.',
-    },
-    {
-      icon: Zap,
-      title: 'Smart Systems',
-      description: 'IoT-enabled monitoring and automated controls for maximum efficiency and convenience.',
+      title: 'Rainfall Data Analysis',
+      description: 'Comprehensive rainfall pattern analysis with historical data and predictive insights for optimal water harvesting planning.',
     },
     {
       icon: Shield,
-      title: 'Verified Contractors',
-      description: 'Thoroughly vetted professionals with proven track records in water harvesting installations.',
-    },
-    {
-      icon: Smartphone,
-      title: 'Mobile Dashboard',
-      description: 'Track your water collection, savings, and system performance from anywhere.',
+      title: 'Groundwater Assessment',
+      description: 'Detailed groundwater level monitoring and analysis to understand local water table conditions and storage capacity.',
     },
     {
       icon: TrendingUp,
-      title: 'Cost Savings',
-      description: 'Reduce water bills by up to 60% with efficient rainwater collection and storage.',
+      title: 'Runoff Capacity Calculation',
+      description: 'Precise measurement of surface runoff potential based on terrain, soil type, and catchment area analysis.',
+    },
+    {
+      icon: Zap,
+      title: 'Dimension Analysis',
+      description: 'AI-powered rooftop and land analysis to determine optimal harvesting system dimensions and placement.',
+    },
+    {
+      icon: Smartphone,
+      title: 'Cost Analysis & Planning',
+      description: 'Comprehensive cost breakdown with ROI analysis, financing options, and budget optimization strategies.',
     },
     {
       icon: Users,
-      title: '24/7 Support',
-      description: 'Expert support team available around the clock for maintenance and troubleshooting.',
+      title: 'Contractor Marketplace',
+      description: 'Verified professionals network with project management, installation tracking, and quality assurance.',
     },
   ];
 
@@ -47,13 +47,13 @@ const FeaturedSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-card-foreground">
-            Why Choose{' '}
+            Complete{' '}
             <span className="bg-gradient-water bg-clip-text text-transparent">
-              AquaHarvest
+              RAIN Solution
             </span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Transform your property into a sustainable water collection system with cutting-edge technology and expert guidance.
+            From comprehensive analysis to professional installation - everything you need to achieve water independence and contribute to India's water security.
           </p>
         </motion.div>
 

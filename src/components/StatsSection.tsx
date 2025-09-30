@@ -5,10 +5,10 @@ const StatsSection = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   const stats = [
-    { number: 10000, suffix: '+', label: 'Happy Customers' },
-    { number: 2500, suffix: 'K', label: 'Gallons Collected Daily' },
-    { number: 95, suffix: '%', label: 'Customer Satisfaction' },
-    { number: 60, suffix: '%', label: 'Average Water Bill Reduction' },
+    { number: 600, suffix: 'M', label: 'Indians Face Water Scarcity' },
+    { number: 40, suffix: '%', label: 'Population Without Clean Water' },
+    { number: 70, suffix: '%', label: 'Water Bill Reduction Potential' },
+    { number: 1000, suffix: '+', label: 'Communities Can Benefit' },
   ];
 
   const AnimatedNumber = ({ number, suffix, isVisible }: { number: number; suffix: string; isVisible: boolean }) => {
@@ -51,13 +51,13 @@ const StatsSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-card-foreground">
-            Proven Results That{' '}
+            India's Water{' '}
             <span className="bg-gradient-eco bg-clip-text text-transparent">
-              Matter
+              Challenge
             </span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Join thousands of satisfied customers who have transformed their water usage with our innovative solutions.
+            Understanding the scale of India's water crisis and how RAIN platform can transform communities through sustainable water management solutions.
           </p>
         </motion.div>
 
@@ -72,10 +72,10 @@ const StatsSection = () => {
               className="text-center"
             >
               <div className="mb-2">
-                <AnimatedNumber 
-                  number={stat.number} 
-                  suffix={stat.suffix} 
-                  isVisible={isVisible} 
+                <AnimatedNumber
+                  number={stat.number}
+                  suffix={stat.suffix}
+                  isVisible={isVisible}
                 />
               </div>
               <p className="text-lg font-medium text-muted-foreground">

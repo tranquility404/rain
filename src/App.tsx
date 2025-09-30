@@ -17,6 +17,7 @@ import Home from "./pages/Home";
 import SelfAssessment from "./pages/SelfAssessment";
 import AnalysisResults from "./pages/AnalysisResults";
 import Analysis from "./pages/Analysis";
+import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ const App = () => (
           <Route path="/schedule/:contractorId" element={<Schedule />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/installation" element={<Installation />} />
+          <Route path="/contact" element={<Contact />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -1,16 +1,15 @@
-import { useEffect } from 'react';
-import ScrollProgress from '@/components/ScrollProgress';
-import Header from '@/components/Header';
-import HeroSection from '@/components/HeroSection';
-import FeaturedSection from '@/components/FeaturedSection';
-import StatsSection from '@/components/StatsSection';
-import ReviewsSection from '@/components/ReviewsSection';
 import CTASection from '@/components/CTASection';
 import Footer from '@/components/Footer';
+import Header from '@/components/Header';
+import HeroSection from '@/components/HeroSection';
+import ProjectProgressSection from '@/components/ProjectProgressSection';
+import ScrollProgress from '@/components/ScrollProgress';
+import StatsSection from '@/components/StatsSection';
+import { useEffect } from 'react';
 
 const Index = () => {
   useEffect(() => {
-    document.title = 'RAIN - Responsible Aqua Initiative for Nature';
+    document.title = 'RAIN Platform - Empowering India\'s Water Independence';
   }, []);
 
   return (
@@ -19,9 +18,9 @@ const Index = () => {
       <Header />
       <main>
         <HeroSection />
-        <FeaturedSection />
+        <ProjectProgressSection />
+        {/* <FeaturedSection /> */}
         <StatsSection />
-        <ReviewsSection />
         <CTASection />
       </main>
       <Footer />
