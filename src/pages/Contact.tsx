@@ -32,38 +32,38 @@ const Contact = () => {
         },
         {
             id: 3,
-            name: 'Arichit Srivastava',
+            name: 'Archit Srivastava',
             role: 'Mobile App Developer',
-            image: '/api/placeholder/300/300',
-            linkedin: 'https://linkedin.com/in/amit-patel-dev',
-            github: 'https://github.com/amit-patel-backend',
+            image: 'archit.jpg',
+            linkedin: 'https://www.linkedin.com/in/architsrivastava12',
+            github: 'https://github.com/architsrivastava',
             email: 'arichitsrivastava159@gmail.com'
         },
         {
             id: 4,
             name: 'Dev Mangal Singh',
             role: 'Frontend Developer',
-            image: '/api/placeholder/300/300',
-            linkedin: 'https://linkedin.com/in/sneha-reddy-frontend',
-            github: 'https://github.com/sneha-reddy-ui',
+            image: 'dev.png',
+            linkedin: 'https://www.linkedin.com/in/dev-mangal-singh-336780331',
+            github: 'https://github.com/devmangal',
             email: 'deepgta222@gmail.com'
         },
         {
             id: 5,
             name: 'Abhay Raj Verma',
             role: 'Frontend Developer',
-            image: '/api/placeholder/300/300',
-            linkedin: 'https://linkedin.com/in/dr-arjun-mehta',
-            github: 'https://github.com/arjun-mehta-research',
+            image: 'abhay.jpg',
+            linkedin: 'https://www.linkedin.com/in/abhay-raj-verma-099666291',
+            github: 'https://github.com/abhayrajverma',
             email: 'abhayv183@gmail.com'
         },
         {
             id: 6,
             name: 'Saniya Khan',
             role: 'UI/UX Designer',
-            image: '/api/placeholder/300/300',
-            linkedin: 'https://linkedin.com/in/kavya-singh-data',
-            github: 'https://github.com/kavya-singh-ml',
+            image: 'saniya.jpg',
+            linkedin: 'https://www.linkedin.com/in/saniya-khan-a2a0b0291',
+            github: 'https://github.com/saniya109',
             email: 'sk4358555@gmail.com'
         }
     ];
